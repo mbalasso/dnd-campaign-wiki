@@ -1,0 +1,8 @@
+site/
+.venv/
+__pycache__/
+.idea/
+.vscode/
+# Keep only the shared Obsidian setting (templates folder), not personal workspace state
+.obsidian/*
+!.obsidian/templates.json

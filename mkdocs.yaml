@@ -1,0 +1,47 @@
+# Base configuration shared by custom.yaml (your campaign) and example.yaml (the example).
+# Campaign details (name, URLs, language, arcs, date format) go in custom.yaml, not here.
+site_name: My Campaign Wiki
+
+# Your campaign lives in docs/. The example campaign is in example-docs/ (see example.yaml).
+docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: white
+      toggle: {icon: material/weather-night, name: Dark theme}
+    - scheme: slate
+      toggle: {icon: material/weather-sunny, name: Light theme}
+      primary: black
+  custom_dir: overrides
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search    # follows theme.language set in custom.yaml
+  - callouts
+  - ezlinks
+
+hooks:
+  - hooks/windows_paths.py
+  - hooks/timeline.py
+  - hooks/game_date.py
+  - hooks/background.py
+  - hooks/last_session.py
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true

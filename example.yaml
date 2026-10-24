@@ -1,0 +1,11 @@
+# The example campaign. Inherits everything from mkdocs.yaml and only changes what's below.
+# Preview it with: mkdocs serve -f example.yaml
+INHERIT: mkdocs.yaml
+
+site_name: The Shattered Coast (example)
+site_url: https://mbalasso.github.io/dnd-campaign-wiki/
+repo_url: https://github.com/mbalasso/dnd-campaign-wiki
+docs_dir: example-docs
+
+extra:
+  arcs: [EMBER, TIDE]

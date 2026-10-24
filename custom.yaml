@@ -1,0 +1,17 @@
+# Your campaign settings. Everything else is inherited from mkdocs.yaml.
+# Preview locally with: mkdocs serve -f custom.yaml
+INHERIT: mkdocs.yaml
+
+site_name: My Campaign Wiki
+site_url: https://YOUR-USERNAME.github.io/YOUR-REPO/
+repo_url: https://github.com/YOUR-USERNAME/YOUR-REPO
+
+theme:
+  language: en
+
+extra:
+  # Valid arc codes, e.g. [MAIN]. When set, an unknown arc in a session fails the build.
+  # Leave empty to accept any code.
+  arcs: []
+  # How real-world session dates are shown (Python strftime format)
+  date_format: "%Y-%m-%d"

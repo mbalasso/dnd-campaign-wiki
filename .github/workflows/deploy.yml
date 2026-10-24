@@ -1,0 +1,21 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.14.7
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - run: pip install -r requirements.txt
+      # The template repository publishes the example campaign as a live demo.
+      # Every copy made from the template publishes its own docs/ with custom.yaml.
+      - run: mkdocs gh-deploy --force --config-file ${{ github.repository == 'mbalasso/dnd-campaign-wiki' && 'example.yaml' || 'custom.yaml' }}
