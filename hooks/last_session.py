@@ -15,7 +15,13 @@ def _arcs(meta):
 
 
 def _format_date(v, fmt):
-    return v.strftime(fmt) if isinstance(v, date) else str(v)
+    # Quoted dates ("2026-03-21") arrive as strings: parse them so date_format still applies
+    if not isinstance(v, date):
+        try:
+            v = date.fromisoformat(str(v))
+        except ValueError:
+            return str(v)
+    return v.strftime(fmt)
 
 
 def _latest(files):

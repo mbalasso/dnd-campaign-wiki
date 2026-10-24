@@ -1,0 +1,169 @@
+# Pages CMS configuration (https://pagescms.org): edit the wiki from the browser with forms.
+# Every save is a commit on main, which triggers the deploy workflow.
+
+media:
+  input: docs/assets
+  output: /assets
+  rename: safe
+  categories: [image]
+
+content:
+  - name: settings
+    label: Campaign settings
+    type: file
+    path: custom.yaml
+    format: yaml
+    fields:
+      # Links custom.yaml to the base configuration: must stay as is
+      - name: INHERIT
+        type: string
+        hidden: true
+      - name: site_name
+        label: Campaign name
+        type: string
+        required: true
+      - name: site_url
+        label: Site address
+        type: string
+        description: "https://YOUR-USERNAME.github.io/YOUR-REPO/ (with the final slash)"
+      - name: repo_url
+        label: GitHub repository
+        type: string
+        description: "https://github.com/YOUR-USERNAME/YOUR-REPO. Leave empty to hide the link."
+      - name: theme
+        label: Theme
+        type: object
+        fields:
+          - name: language
+            label: Site language
+            type: select
+            options:
+              values:
+                - { name: en, label: English }
+                - { name: it, label: Italiano }
+                - { name: es, label: Español }
+                - { name: fr, label: Français }
+                - { name: de, label: Deutsch }
+                - { name: pt, label: Português }
+                - { name: nl, label: Nederlands }
+                - { name: pl, label: Polski }
+      - name: extra
+        label: Campaign options
+        type: object
+        fields:
+          - name: arcs
+            label: Story arc codes
+            type: string
+            list: true
+            description: "E.g. MAIN. When set, sessions with an unknown arc code stop the site from updating. Leave empty to accept any code."
+          - name: date_format
+            label: Date format
+            type: select
+            options:
+              values:
+                - { name: "%Y-%m-%d", label: "2026-03-21" }
+                - { name: "%d/%m/%Y", label: "21/03/2026" }
+                - { name: "%m/%d/%Y", label: "03/21/2026" }
+                - { name: "%B %d, %Y", label: "March 21, 2026" }
+
+  - name: home
+    label: Home page
+    type: file
+    path: docs/index.md
+    format: yaml-frontmatter
+    fields:
+      - name: cover
+        label: Cover image
+        type: image
+      - name: body
+        label: Content
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: sessions
+    label: Sessions
+    type: collection
+    path: docs/sessions
+    subfolders: true
+    exclude: [index.md]
+    filename: "{session}.md"
+    view:
+      primary: session
+      sort: real_date
+      order: desc
+    fields:
+      - name: session
+        label: Session code
+        type: string
+        required: true
+        description: "E.g. S01-03. Also used as the file name."
+      - name: real_date
+        label: Played on
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: game_date
+        label: In-game date
+        type: string
+        description: "Free text, in your setting's calendar"
+      - name: arc
+        label: Story arcs
+        type: string
+        list: true
+        description: "Arc codes, e.g. MAIN"
+      - name: cover
+        label: Cover image
+        type: image
+      - name: body
+        label: Recap
+        type: rich-text
+        description: "Start with a Heading 1: it becomes the session title."
+        options:
+          format: markdown
+
+  - name: arcs
+    label: Story arcs
+    type: collection
+    path: docs/arcs
+    filename:
+      template: "{year}{month}{day}-arc.md"
+      field: create
+    fields:
+      - name: cover
+        label: Cover image
+        type: image
+      - name: body
+        label: Content
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: rules
+    label: House rules
+    type: collection
+    path: docs/rules
+    filename:
+      template: "{year}{month}{day}-rules.md"
+      field: create
+    fields:
+      - name: body
+        label: Content
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: magic-items
+    label: Magic items
+    type: collection
+    path: docs/magic-items
+    filename:
+      template: "{year}{month}{day}-items.md"
+      field: create
+    fields:
+      - name: body
+        label: Content
+        type: rich-text
+        options:
+          format: markdown

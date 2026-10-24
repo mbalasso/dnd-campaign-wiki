@@ -19,6 +19,12 @@ def on_page_markdown(markdown, page, config, files, **kwargs):
 
     real_date = meta.get("real_date")
     date_fmt = (config.get("extra") or {}).get("date_format", "%Y-%m-%d")
+    # Quoted dates ("2026-03-21") arrive as strings: parse them so date_format still applies
+    if real_date and not isinstance(real_date, date):
+        try:
+            real_date = date.fromisoformat(str(real_date))
+        except ValueError:
+            pass
     if isinstance(real_date, date):
         parts.append(f"played on {real_date.strftime(date_fmt)}")
     elif real_date:
